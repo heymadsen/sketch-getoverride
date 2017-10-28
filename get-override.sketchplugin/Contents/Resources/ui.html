@@ -1,0 +1,210 @@
+<html>
+<head>
+<style>
+* {
+  padding: 0;
+  margin: 0;
+  background-color: #F5F4F5;
+  font-family: Roboto, Tahoma;
+  font-weight: 300;
+  color: #404040;
+}
+
+#searchInput {
+  background-image: url('https://www.w3schools.com//css/searchicon.png');
+  background-position: 20px 20px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 18px;
+  padding: 20px 20px 20px 60px;
+  background-color: #FFF;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 20px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+#myTable input {
+  background-position: 20px 20px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 18px;
+  padding: 20px 20px 20px 20px;
+  background-color: #FFF;
+}
+
+button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 100%;
+}
+
+</style>
+</head>
+
+<body>
+
+  <form>
+    <input type="text" id="artboardName" value="Artboard name" style="display: none;"><br>
+  </form>
+  <button onclick="addArtboard()" style="display: none;">Add artboard</button>
+  <script>
+  function addArtboard() {
+    //More interestingly, you can send commands AND values in the same hash
+    //the syntax is: command&parameter=value
+    //If you want to send more parameters: command&parameter1=value&parameter2=value…
+    updateHash('addArtboard&artboardName='+document.getElementById('artboardName').value);
+  }
+  </script>
+
+
+
+<input type="text" id="searchInput" onkeyup="search()" placeholder="Getoverride Search">
+
+
+<table id="myTable">
+  <form id="UpdateStuff">
+  <tr class="header">
+    <th style="width:60%;">Name</th>
+    <th style="width:40%;">Id</th>
+    </form>
+</table>
+
+
+<form action="" method="get">
+    <input type="text" id="selectedLayerName">
+</form>
+
+
+<button onclick="updateArtboards()">Update</button>
+
+
+<script>
+  function updateArtboards() {
+    updateHash('update');
+  }
+</script>
+
+<script type="text/javascript">
+
+    var myArr = [
+      {
+      "name": ["sample name"],
+      "var": [
+              "sample var"
+          ]
+      },
+      {
+      "name": ["sample name", "sample name 2"],
+      "var": [
+              "sample var",
+              "sample var 2"
+          ]
+      },
+      {
+      "name": ["sample name"],
+      "var": [
+              "sample var"
+          ]
+      }
+    ];
+
+    // myFunction(myArr);
+    function populate(arr) {
+        table = document.getElementById("myTable");
+
+        for(let i = 0; i < arr.length; i++) {
+          // Create an empty <tr> element and add it to the 1st position of the table:
+          tr = table.getElementsByTagName("tr");
+          var row = table.insertRow(tr.length);
+
+          // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+
+          cell1.innerHTML = arr[i].name[0]
+
+          var input = document.createElement('input')
+          input.id = 'input' + i
+          cell2.appendChild(input);
+
+          var button = document.createElement('button')
+          button.innerHTML = 'Submit'
+          let j = 0 + i
+          button.onclick = () => updateHash('buttonPressed&index='+j + '&override=' + document.getElementById('input' + j).value);
+          cell2.appendChild(button)
+        }
+    }
+
+</script>
+
+<script type="text/javascript">
+
+  function search() {
+    // Declare variables
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+</script>
+
+
+<script>
+function updateHash(hash) {
+    //We can send a simple command or a command with a parameter and value
+    //You can extend this function to send multiple values. script.js will parse
+    //all the values and expose them in the hash object so you can use them
+    //new Date is there just to make sure the url is alwasy different
+      window.location.hash = hash+'&date=' +new Date().getTime();
+      return false
+}
+
+//We can call Javascript functions from Sketch and set parameters from there
+//This function is never called in this file but the sketch.js can call it and update the UI
+function updateInput(value) {
+  window.valueFromPlugin = value
+  // document.getElementById('selectedLayerID').value = JSON.stringify(value[0]["ID"]);
+  document.getElementById('selectedLayerName').value = JSON.stringify(value[0]["name"]);
+
+  populate(value)
+}
+</script>
+
+</body>
+</html>

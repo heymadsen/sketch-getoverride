@@ -1,0 +1,23 @@
+{
+  "author" : "",
+  "commands" : [
+    {
+      "script" : "script.js",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Go!",
+      "identifier" : "run"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "run",
+    ],
+    "title" : "Get Override"
+  },
+  "identifier" : "com.getoverride.sketch",
+  "version" : "0",
+  "description" : "",
+  "authorEmail" : "",
+  "name" : "Get Override"
+}
