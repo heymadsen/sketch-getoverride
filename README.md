@@ -1,6 +1,6 @@
 # Get Override for Sketch
 
-<img align="center" src="https://github.com/heymadsen/sketch-getoverride/sample/hero.jpg">
+![Get Override](sample/hero.jpg "Get rid of that long list")
 
 Quickly search through all your symbol overrides with this magnificent tool.
 
